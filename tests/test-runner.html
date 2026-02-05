@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NumConvert — Test Runner</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: #111; color: #eee; padding: 24px; }
+    h1 { margin-bottom: 4px; }
+    #summary { margin: 12px 0 20px; padding: 12px 16px; border-radius: 8px; font-weight: 600; font-size: 1.1rem; }
+    .pass-bg { background: #0d3f1a; color: #4ade80; border: 1px solid #22c55e33; }
+    .fail-bg { background: #3f0d0d; color: #f87171; border: 1px solid #ef444433; }
+    .suite { margin-bottom: 20px; }
+    .suite-title { font-size: 1rem; font-weight: 700; color: #93c5fd; margin-bottom: 6px; border-bottom: 1px solid #333; padding-bottom: 4px; }
+    .test { padding: 4px 0; font-size: 0.88rem; display: flex; gap: 8px; }
+    .test .icon { width: 18px; text-align: center; }
+    .test.pass .icon { color: #4ade80; }
+    .test.fail .icon { color: #f87171; }
+    .test.fail .detail { color: #fca5a5; font-size: 0.8rem; margin-left: 26px; margin-top: 2px; }
+  </style>
+</head>
+<body>
+  <h1>NumConvert Test Suite</h1>
+  <div id="summary">Running tests...</div>
+  <div id="results"></div>
+
+  <script>
+    // ===============================================
+    //  Minimal Test Framework
+    // ===============================================
+    const suites = [];
+    let currentSuite = null;
+
+    function describe(name, fn) {
+      currentSuite = { name, tests: [] };
+      suites.push(currentSuite);
+      fn();
+      currentSuite = null;
+    }
+
+    function it(name, fn) {
+      currentSuite.tests.push({ name, fn });
+    }
+
+    function expect(actual) {
+      return {
+        toBe(expected) {
+          if (actual !== expected) throw new Error(`Expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`);
+        },
+        toContain(substr) {
+          if (typeof actual !== 'string' || !actual.includes(substr)) throw new Error(`Expected "${actual}" to contain "${substr}"`);
+        },
+        toBeTruthy() {
+          if (!actual) throw new Error(`Expected truthy, got ${JSON.stringify(actual)}`);
+        },
+        toBeFalsy() {
+          if (actual) throw new Error(`Expected falsy, got ${JSON.stringify(actual)}`);
+        },
+        toBeGreaterThan(n) {
+          if (!(actual > n)) throw new Error(`Expected ${actual} > ${n}`);
+        },
+        toMatch(re) {
+          if (!re.test(actual)) throw new Error(`Expected "${actual}" to match ${re}`);
+        }
+      };
+    }
+
+    // ===============================================
+    //  Pure-Logic Unit Tests (no DOM needed)
+    // ===============================================
+
+    // Recreate pure functions from script.js for unit testing
+    function groupDigits(str, groupSize) {
+      const rem = str.length % groupSize;
+      let result = str.substring(0, rem);
+      for (let i = rem; i < str.length; i += groupSize) {
+        if (result) result += " ";
+        result += str.substring(i, i + groupSize);
+      }
+      return result;
+    }
+
+    function formatForBase(value, base) {
+      if (!value) return value;
+      const upper = value.toUpperCase();
+      switch (base) {
+        case 2:  return groupDigits(upper, 4);
+        case 16: return groupDigits(upper, 4);
+        case 8:  return groupDigits(upper, 3);
+        default: return upper;
+      }
+    }
+
+    const baseChars = {
+      2: /^[01]+$/i,
+      8: /^[0-7]+$/i,
+      10: /^[0-9]+$/i,
+      16: /^[0-9a-f]+$/i,
+    };
+
+    function escapeHtml(str) {
+      const div = document.createElement("div");
+      div.appendChild(document.createTextNode(str));
+      return div.innerHTML;
+    }
+
+    function getRelativeTime(timestamp) {
+      const diff = Date.now() - timestamp;
+      const seconds = Math.floor(diff / 1000);
+      if (seconds < 5) return "just now";
+      if (seconds < 60) return `${seconds}s ago`;
+      const minutes = Math.floor(seconds / 60);
+      if (minutes < 60) return `${minutes}m ago`;
+      const hours = Math.floor(minutes / 60);
+      if (hours < 24) return `${hours}h ago`;
+      const days = Math.floor(hours / 24);
+      if (days < 7) return `${days}d ago`;
+      return new Date(timestamp).toLocaleDateString();
+    }
+
+    function convertNumber(raw, fromBase, toBase) {
+      const decimal = parseInt(raw, fromBase);
+      if (isNaN(decimal)) return null;
+      return decimal.toString(toBase).toUpperCase();
+    }
+
+    // ───── TEST SUITES ─────
+
+    describe("Digit Grouping — groupDigits()", () => {
+      it("groups binary 8 digits into 2 groups of 4", () => {
+        expect(groupDigits("10110011", 4)).toBe("1011 0011");
+      });
+      it("groups binary 5 digits with remainder", () => {
+        expect(groupDigits("10110", 4)).toBe("1 0110");
+      });
+      it("groups binary exactly 4 digits (no space)", () => {
+        expect(groupDigits("1010", 4)).toBe("1010");
+      });
+      it("handles single digit", () => {
+        expect(groupDigits("1", 4)).toBe("1");
+      });
+      it("handles empty string", () => {
+        expect(groupDigits("", 4)).toBe("");
+      });
+      it("groups octal in 3s", () => {
+        expect(groupDigits("17654321", 3)).toBe("17 654 321");
+      });
+      it("groups hex in 4s", () => {
+        expect(groupDigits("DEADBEEF", 4)).toBe("DEAD BEEF");
+      });
+    });
+
+    describe("Format for Base — formatForBase()", () => {
+      it("formats binary with 4-digit groups", () => {
+        expect(formatForBase("10110011", 2)).toBe("1011 0011");
+      });
+      it("formats hex with 4-digit groups uppercase", () => {
+        expect(formatForBase("deadbeef", 16)).toBe("DEAD BEEF");
+      });
+      it("formats octal with 3-digit groups", () => {
+        expect(formatForBase("7654321", 8)).toBe("7 654 321");
+      });
+      it("decimal has no grouping", () => {
+        expect(formatForBase("123456789", 10)).toBe("123456789");
+      });
+      it("returns falsy for empty/null input", () => {
+        expect(formatForBase("", 2)).toBeFalsy();
+        expect(formatForBase(null, 2)).toBeFalsy();
+        expect(formatForBase(undefined, 2)).toBeFalsy();
+      });
+    });
+
+    describe("Input Validation — baseChars regex", () => {
+      it("binary accepts 0 and 1 only", () => {
+        expect(baseChars[2].test("01010110")).toBe(true);
+        expect(baseChars[2].test("012")).toBe(false);
+        expect(baseChars[2].test("2")).toBe(false);
+        expect(baseChars[2].test("abc")).toBe(false);
+      });
+      it("octal accepts 0-7 only", () => {
+        expect(baseChars[8].test("01234567")).toBe(true);
+        expect(baseChars[8].test("8")).toBe(false);
+        expect(baseChars[8].test("9")).toBe(false);
+        expect(baseChars[8].test("a")).toBe(false);
+      });
+      it("decimal accepts 0-9 only", () => {
+        expect(baseChars[10].test("0123456789")).toBe(true);
+        expect(baseChars[10].test("a")).toBe(false);
+        expect(baseChars[10].test("F")).toBe(false);
+      });
+      it("hex accepts 0-9 and a-f (case insensitive)", () => {
+        expect(baseChars[16].test("0123456789abcdef")).toBe(true);
+        expect(baseChars[16].test("ABCDEF")).toBe(true);
+        expect(baseChars[16].test("g")).toBe(false);
+        expect(baseChars[16].test("xyz")).toBe(false);
+      });
+      it("rejects empty strings for all bases", () => {
+        expect(baseChars[2].test("")).toBe(false);
+        expect(baseChars[8].test("")).toBe(false);
+        expect(baseChars[10].test("")).toBe(false);
+        expect(baseChars[16].test("")).toBe(false);
+      });
+      it("rejects strings with spaces", () => {
+        expect(baseChars[2].test("10 11")).toBe(false);
+        expect(baseChars[10].test("1 234")).toBe(false);
+        expect(baseChars[16].test("DE AD")).toBe(false);
+      });
+    });
+
+    describe("Number Conversion — Core Logic", () => {
+      // Decimal → Binary
+      it("converts decimal 0 to binary 0", () => {
+        expect(convertNumber("0", 10, 2)).toBe("0");
+      });
+      it("converts decimal 1 to binary 1", () => {
+        expect(convertNumber("1", 10, 2)).toBe("1");
+      });
+      it("converts decimal 255 to binary 11111111", () => {
+        expect(convertNumber("255", 10, 2)).toBe("11111111");
+      });
+      it("converts decimal 1024 to binary", () => {
+        expect(convertNumber("1024", 10, 2)).toBe("10000000000");
+      });
+
+      // Binary → Decimal
+      it("converts binary 1010 to decimal 10", () => {
+        expect(convertNumber("1010", 2, 10)).toBe("10");
+      });
+      it("converts binary 11111111 to decimal 255", () => {
+        expect(convertNumber("11111111", 2, 10)).toBe("255");
+      });
+
+      // Decimal → Hexadecimal
+      it("converts decimal 255 to hex FF", () => {
+        expect(convertNumber("255", 10, 16)).toBe("FF");
+      });
+      it("converts decimal 16 to hex 10", () => {
+        expect(convertNumber("16", 10, 16)).toBe("10");
+      });
+      it("converts decimal 3735928559 to hex DEADBEEF", () => {
+        expect(convertNumber("3735928559", 10, 16)).toBe("DEADBEEF");
+      });
+
+      // Hexadecimal → Decimal
+      it("converts hex FF to decimal 255", () => {
+        expect(convertNumber("FF", 16, 10)).toBe("255");
+      });
+      it("converts hex A to decimal 10", () => {
+        expect(convertNumber("A", 16, 10)).toBe("10");
+      });
+      it("converts hex lowercase ff to decimal 255", () => {
+        expect(convertNumber("ff", 16, 10)).toBe("255");
+      });
+
+      // Decimal → Octal
+      it("converts decimal 8 to octal 10", () => {
+        expect(convertNumber("8", 10, 8)).toBe("10");
+      });
+      it("converts decimal 255 to octal 377", () => {
+        expect(convertNumber("255", 10, 8)).toBe("377");
+      });
+      it("converts decimal 0 to octal 0", () => {
+        expect(convertNumber("0", 10, 8)).toBe("0");
+      });
+
+      // Octal → Decimal
+      it("converts octal 377 to decimal 255", () => {
+        expect(convertNumber("377", 8, 10)).toBe("255");
+      });
+      it("converts octal 10 to decimal 8", () => {
+        expect(convertNumber("10", 8, 10)).toBe("8");
+      });
+
+      // Cross-base: Binary → Hex
+      it("converts binary 11111111 to hex FF", () => {
+        expect(convertNumber("11111111", 2, 16)).toBe("FF");
+      });
+      it("converts binary 1010 to hex A", () => {
+        expect(convertNumber("1010", 2, 16)).toBe("A");
+      });
+
+      // Cross-base: Hex → Binary
+      it("converts hex FF to binary 11111111", () => {
+        expect(convertNumber("FF", 16, 2)).toBe("11111111");
+      });
+      it("converts hex A to binary 1010", () => {
+        expect(convertNumber("A", 16, 2)).toBe("1010");
+      });
+
+      // Cross-base: Octal → Hex
+      it("converts octal 377 to hex FF", () => {
+        expect(convertNumber("377", 8, 16)).toBe("FF");
+      });
+
+      // Cross-base: Hex → Octal
+      it("converts hex FF to octal 377", () => {
+        expect(convertNumber("FF", 16, 8)).toBe("377");
+      });
+
+      // Cross-base: Binary → Octal
+      it("converts binary 11111111 to octal 377", () => {
+        expect(convertNumber("11111111", 2, 8)).toBe("377");
+      });
+
+      // Cross-base: Octal → Binary
+      it("converts octal 377 to binary 11111111", () => {
+        expect(convertNumber("377", 8, 2)).toBe("11111111");
+      });
+
+      // Same base conversion (identity)
+      it("decimal to decimal returns same", () => {
+        expect(convertNumber("42", 10, 10)).toBe("42");
+      });
+      it("binary to binary returns same", () => {
+        expect(convertNumber("1010", 2, 2)).toBe("1010");
+      });
+      it("hex to hex returns same", () => {
+        expect(convertNumber("FF", 16, 16)).toBe("FF");
+      });
+    });
+
+    describe("Edge Cases — Conversion", () => {
+      it("converts 0 in all bases", () => {
+        expect(convertNumber("0", 2, 10)).toBe("0");
+        expect(convertNumber("0", 10, 2)).toBe("0");
+        expect(convertNumber("0", 16, 8)).toBe("0");
+        expect(convertNumber("0", 8, 16)).toBe("0");
+      });
+      it("handles very large decimal number", () => {
+        expect(convertNumber("1000000", 10, 16)).toBe("F4240");
+      });
+      it("handles single-character hex values", () => {
+        expect(convertNumber("F", 16, 10)).toBe("15");
+        expect(convertNumber("0", 16, 10)).toBe("0");
+      });
+      it("handles maximum safe small values correctly", () => {
+        // 2^16 - 1 = 65535
+        expect(convertNumber("65535", 10, 16)).toBe("FFFF");
+        expect(convertNumber("65535", 10, 2)).toBe("1111111111111111");
+        expect(convertNumber("65535", 10, 8)).toBe("177777");
+      });
+      it("handles powers of 2", () => {
+        expect(convertNumber("1", 10, 2)).toBe("1");
+        expect(convertNumber("2", 10, 2)).toBe("10");
+        expect(convertNumber("4", 10, 2)).toBe("100");
+        expect(convertNumber("8", 10, 2)).toBe("1000");
+        expect(convertNumber("16", 10, 2)).toBe("10000");
+        expect(convertNumber("256", 10, 2)).toBe("100000000");
+      });
+    });
+
+    describe("Escape HTML Utility", () => {
+      it("escapes angle brackets", () => {
+        expect(escapeHtml("<div>alert(1)<\/div>")).toContain("&lt;");
+      });
+      it("escapes ampersand", () => {
+        expect(escapeHtml("a & b")).toContain("&amp;");
+      });
+      it("escapes double quotes", () => {
+        expect(escapeHtml('say "hello"')).toContain("&quot;");
+      });
+      it("leaves plain text unchanged", () => {
+        expect(escapeHtml("hello world")).toBe("hello world");
+      });
+      it("handles empty string", () => {
+        expect(escapeHtml("")).toBe("");
+      });
+    });
+
+    describe("Relative Time Utility", () => {
+      it("returns 'just now' for recent timestamps", () => {
+        expect(getRelativeTime(Date.now() - 2000)).toBe("just now");
+      });
+      it("returns seconds ago", () => {
+        expect(getRelativeTime(Date.now() - 30000)).toBe("30s ago");
+      });
+      it("returns minutes ago", () => {
+        expect(getRelativeTime(Date.now() - 5 * 60 * 1000)).toBe("5m ago");
+      });
+      it("returns hours ago", () => {
+        expect(getRelativeTime(Date.now() - 3 * 60 * 60 * 1000)).toBe("3h ago");
+      });
+      it("returns days ago", () => {
+        expect(getRelativeTime(Date.now() - 2 * 24 * 60 * 60 * 1000)).toBe("2d ago");
+      });
+      it("returns date string for old timestamps", () => {
+        const old = Date.now() - 30 * 24 * 60 * 60 * 1000;
+        expect(typeof getRelativeTime(old)).toBe("string");
+        // Should not contain 'ago'
+      });
+    });
+
+    describe("Format for Base — Round-trip Integrity", () => {
+      // After formatting, stripping spaces should reproduce original uppercase
+      it("binary round-trip: strip spaces matches original", () => {
+        const original = "11010110";
+        const formatted = formatForBase(original, 2);
+        expect(formatted.replace(/\s/g, "")).toBe(original.toUpperCase());
+      });
+      it("hex round-trip: strip spaces matches original", () => {
+        const original = "deadbeef";
+        const formatted = formatForBase(original, 16);
+        expect(formatted.replace(/\s/g, "")).toBe(original.toUpperCase());
+      });
+      it("octal round-trip: strip spaces matches original", () => {
+        const original = "7654321";
+        const formatted = formatForBase(original, 8);
+        expect(formatted.replace(/\s/g, "")).toBe(original.toUpperCase());
+      });
+      it("decimal round-trip (no grouping)", () => {
+        const original = "123456789";
+        const formatted = formatForBase(original, 10);
+        expect(formatted).toBe("123456789");
+      });
+    });
+
+    describe("Swap Logic — Space Stripping", () => {
+      it("stripping spaces from formatted output gives valid input", () => {
+        // Simulate: user typed decimal 255, output is binary "1111 1111"
+        const outputFormatted = formatForBase("11111111", 2);
+        expect(outputFormatted).toBe("1111 1111");
+        // On swap, we strip spaces
+        const stripped = outputFormatted.replace(/\s/g, "");
+        expect(stripped).toBe("11111111");
+        // The stripped value must pass binary validation
+        expect(baseChars[2].test(stripped)).toBe(true);
+      });
+      it("stripping spaces from hex output gives valid hex input", () => {
+        const outputFormatted = formatForBase("DEADBEEF", 16);
+        const stripped = outputFormatted.replace(/\s/g, "");
+        expect(baseChars[16].test(stripped)).toBe(true);
+      });
+      it("stripping spaces from octal output gives valid octal input", () => {
+        const outputFormatted = formatForBase("7654321", 8);
+        const stripped = outputFormatted.replace(/\s/g, "");
+        expect(baseChars[8].test(stripped)).toBe(true);
+      });
+    });
+
+    describe("Full Conversion Pipeline — End-to-End", () => {
+      // Simulate the full pipeline: input → validate → convert → format → verify
+      function pipeline(raw, fromBase, toBase) {
+        if (!baseChars[fromBase].test(raw)) return { error: "invalid" };
+        const decimal = parseInt(raw, fromBase);
+        if (isNaN(decimal)) return { error: "NaN" };
+        const result = decimal.toString(toBase).toUpperCase();
+        const formatted = formatForBase(result, toBase);
+        return { result, formatted, decimal };
+      }
+
+      it("DEC 255 → BIN gives grouped binary", () => {
+        const r = pipeline("255", 10, 2);
+        expect(r.result).toBe("11111111");
+        expect(r.formatted).toBe("1111 1111");
+        expect(r.decimal).toBe(255);
+      });
+      it("DEC 255 → HEX gives FF", () => {
+        const r = pipeline("255", 10, 16);
+        expect(r.result).toBe("FF");
+        expect(r.formatted).toBe("FF");
+      });
+      it("DEC 255 → OCT gives grouped octal", () => {
+        const r = pipeline("255", 10, 8);
+        expect(r.result).toBe("377");
+        expect(r.formatted).toBe("377");
+      });
+      it("BIN → DEC → back to BIN is lossless", () => {
+        const r1 = pipeline("10110011", 2, 10);
+        const r2 = pipeline(r1.result, 10, 2);
+        expect(r2.result).toBe("10110011");
+      });
+      it("HEX → OCT → DEC → BIN → HEX is lossless", () => {
+        const orig = "1A3F";
+        const step1 = pipeline(orig, 16, 8);   // hex → oct
+        const step2 = pipeline(step1.result, 8, 10); // oct → dec
+        const step3 = pipeline(step2.result, 10, 2); // dec → bin
+        const step4 = pipeline(step3.result, 2, 16);  // bin → hex
+        expect(step4.result).toBe(orig);
+      });
+      it("rejects invalid binary input in pipeline", () => {
+        const r = pipeline("102", 2, 10);
+        expect(r.error).toBe("invalid");
+      });
+      it("rejects spaces in input", () => {
+        const r = pipeline("1010 1100", 2, 10);
+        expect(r.error).toBe("invalid");
+      });
+    });
+
+    describe("Quick Reference — Bit/Byte Meta", () => {
+      it("calculates bits correctly for 255", () => {
+        const bin = (255).toString(2);
+        expect(bin.length).toBe(8);
+        expect(Math.ceil(bin.length / 8)).toBe(1);
+      });
+      it("calculates bits correctly for 256", () => {
+        const bin = (256).toString(2);
+        expect(bin.length).toBe(9);
+        expect(Math.ceil(bin.length / 8)).toBe(2);
+      });
+      it("calculates bits correctly for 0", () => {
+        const bin = (0).toString(2);
+        expect(bin.length).toBe(1);
+        expect(Math.ceil(bin.length / 8)).toBe(1);
+      });
+      it("calculates bits for large number (65535)", () => {
+        const bin = (65535).toString(2);
+        expect(bin.length).toBe(16);
+        expect(Math.ceil(bin.length / 8)).toBe(2);
+      });
+    });
+
+    // ===============================================
+    //  Run All Tests
+    // ===============================================
+    let totalPassed = 0;
+    let totalFailed = 0;
+    const resultsDiv = document.getElementById("results");
+
+    for (const suite of suites) {
+      const suiteDiv = document.createElement("div");
+      suiteDiv.className = "suite";
+      const titleEl = document.createElement("div");
+      titleEl.className = "suite-title";
+      titleEl.textContent = suite.name;
+      suiteDiv.appendChild(titleEl);
+
+      for (const test of suite.tests) {
+        const testDiv = document.createElement("div");
+        try {
+          test.fn();
+          testDiv.className = "test pass";
+          testDiv.innerHTML = `<span class="icon">✓</span> <span>${test.name}</span>`;
+          totalPassed++;
+        } catch (e) {
+          testDiv.className = "test fail";
+          testDiv.innerHTML = `<span class="icon">✗</span> <span>${test.name}</span><div class="detail">${e.message}</div>`;
+          totalFailed++;
+        }
+        suiteDiv.appendChild(testDiv);
+      }
+
+      resultsDiv.appendChild(suiteDiv);
+    }
+
+    const summaryDiv = document.getElementById("summary");
+    const total = totalPassed + totalFailed;
+    if (totalFailed === 0) {
+      summaryDiv.textContent = `ALL ${total} TESTS PASSED ✓`;
+      summaryDiv.className = "pass-bg";
+    } else {
+      summaryDiv.textContent = `${totalFailed} FAILED, ${totalPassed} passed out of ${total} tests`;
+      summaryDiv.className = "fail-bg";
+    }
+
+    // Output JSON summary for automated parsing
+    console.log(JSON.stringify({ total, passed: totalPassed, failed: totalFailed }));
+  </script>
+</body>
+</html>
