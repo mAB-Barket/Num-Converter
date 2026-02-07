@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>OG Image Generator – NumConvert</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: #f5f5f7;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    .instructions {
+      margin-bottom: 24px;
+      text-align: center;
+      color: #333;
+      font-size: 16px;
+      max-width: 600px;
+      line-height: 1.6;
+    }
+    .instructions strong { color: #0071e3; }
+    .instructions code {
+      background: #e8e8ed;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    /* The actual OG image card */
+    .og-card {
+      width: 1200px;
+      height: 630px;
+      background: linear-gradient(135deg, #0071e3 0%, #00c7ff 50%, #0071e3 100%);
+      border-radius: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      color: #fff;
+    }
+
+    /* Background pattern */
+    .og-card::before {
+      content: '01 0A F3 10 1F 00 11 AB FF 7C 01 0A F3 10 1F 00 11 AB FF 7C 01 0A F3';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+      font-size: 28px;
+      line-height: 1.8;
+      color: rgba(255, 255, 255, 0.06);
+      word-break: break-all;
+      padding: 30px;
+      pointer-events: none;
+    }
+
+    .og-logo {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.85);
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .og-title {
+      font-size: 72px;
+      font-weight: 800;
+      text-align: center;
+      line-height: 1.15;
+      max-width: 900px;
+      position: relative;
+      z-index: 1;
+      text-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .og-subtitle {
+      font-size: 28px;
+      font-weight: 400;
+      margin-top: 24px;
+      color: rgba(255, 255, 255, 0.9);
+      text-align: center;
+      max-width: 800px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .og-badges {
+      display: flex;
+      gap: 16px;
+      margin-top: 36px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .og-badge {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50px;
+      padding: 10px 24px;
+      font-size: 20px;
+      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .og-url {
+      position: absolute;
+      bottom: 30px;
+      font-size: 20px;
+      color: rgba(255, 255, 255, 0.7);
+      position: relative;
+      z-index: 1;
+      margin-top: 30px;
+    }
+
+    /* Scale down for screen display */
+    .scale-wrapper {
+      transform: scale(0.6);
+      transform-origin: top center;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="instructions">
+    <p><strong>How to save this as your OG preview image:</strong></p>
+    <p>
+      1. Open this file in your browser<br>
+      2. Right-click the card below → <strong>Inspect Element</strong><br>
+      3. Right-click the <code>.og-card</code> element → <strong>Capture node screenshot</strong><br>
+      4. Save as <code>og-preview.png</code> in your project root<br>
+      5. Commit & push to GitHub
+    </p>
+  </div>
+
+  <div class="scale-wrapper">
+    <div class="og-card" id="og-card">
+      <div class="og-logo">⚡ NumConvert</div>
+      <div class="og-title">Number System<br>Converter</div>
+      <div class="og-subtitle">Convert instantly between number systems — free & open source</div>
+      <div class="og-badges">
+        <span class="og-badge">Binary</span>
+        <span class="og-badge">Decimal</span>
+        <span class="og-badge">Octal</span>
+        <span class="og-badge">Hexadecimal</span>
+      </div>
+      <div class="og-url">mab-barket.github.io/Num-Converter</div>
+    </div>
+  </div>
+</body>
+</html>
