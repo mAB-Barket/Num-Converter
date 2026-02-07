@@ -90,8 +90,43 @@
   function toggleTheme() {
     const current = document.documentElement.getAttribute("data-theme");
     const next = current === "dark" ? "light" : "dark";
-    document.documentElement.setAttribute("data-theme", next);
-    localStorage.setItem(THEME_KEY, next);
+
+    // Animate the transition
+    const overlay = document.createElement("div");
+    overlay.className = "theme-transition-overlay";
+    overlay.style.background = next === "dark"
+      ? "radial-gradient(circle at var(--tx, 50%) var(--ty, 0%), #0d0d11 0%, transparent 70%)"
+      : "radial-gradient(circle at var(--tx, 50%) var(--ty, 0%), #e8eaf0 0%, transparent 70%)";
+
+    // Position from the toggle button
+    const rect = themeToggle.getBoundingClientRect();
+    const cx = ((rect.left + rect.width / 2) / window.innerWidth * 100).toFixed(1);
+    const cy = ((rect.top + rect.height / 2) / window.innerHeight * 100).toFixed(1);
+    overlay.style.setProperty("--tx", cx + "%");
+    overlay.style.setProperty("--ty", cy + "%");
+
+    document.body.appendChild(overlay);
+
+    // Spin the toggle icon
+    themeToggle.classList.add("theme-toggle--animating");
+
+    requestAnimationFrame(() => {
+      overlay.classList.add("theme-transition-overlay--active");
+    });
+
+    setTimeout(() => {
+      document.documentElement.setAttribute("data-theme", next);
+      localStorage.setItem(THEME_KEY, next);
+    }, 250);
+
+    setTimeout(() => {
+      overlay.classList.add("theme-transition-overlay--done");
+      themeToggle.classList.remove("theme-toggle--animating");
+    }, 500);
+
+    setTimeout(() => {
+      overlay.remove();
+    }, 900);
   }
 
   // ── Badge Updates ───────────────────────────────────────────

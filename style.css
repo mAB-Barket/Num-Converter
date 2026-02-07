@@ -38,27 +38,27 @@
 }
 
 [data-theme="dark"] {
-  --bg: #0d0d11;
-  --bg-card: rgba(30, 30, 40, 0.55);
-  --bg-card-solid: #1a1a24;
-  --text: #f5f5f7;
-  --text-secondary: #8e8e93;
-  --primary: #5ac8fa;
-  --primary-hover: #4ab8e8;
-  --border: rgba(255, 255, 255, 0.08);
-  --border-outer: rgba(255, 255, 255, 0.06);
-  --input-bg: rgba(0, 0, 0, 0.3);
-  --lcd-bg: #0c1a0a;
-  --lcd-text: #40ff40;
-  --lcd-glow: rgba(60, 255, 60, 0.15);
-  --lcd-border: rgba(60, 255, 60, 0.15);
-  --glass-blur: 20px;
-  --glass-shine: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.01) 50%, rgba(255,255,255,0.04) 100%);
-  --shadow: 0 8px 32px rgba(0, 0, 0, 0.35), 0 2px 8px rgba(0, 0, 0, 0.2);
-  --shadow-lg: 0 16px 56px rgba(0, 0, 0, 0.5), 0 4px 16px rgba(0, 0, 0, 0.3);
-  --shadow-inset: inset 0 2px 8px rgba(0, 0, 0, 0.3);
-  --shadow-sm: 0 1px 6px rgba(0, 0, 0, 0.2);
-  --iridescent: linear-gradient(135deg, rgba(90,200,250,0.15), rgba(140,100,220,0.12), rgba(250,100,140,0.1), rgba(80,220,170,0.12));
+  --bg: #0a0a10;
+  --bg-card: rgba(22, 22, 35, 0.65);
+  --bg-card-solid: #14141f;
+  --text: #f0f0f5;
+  --text-secondary: #9a9aa8;
+  --primary: #64d2ff;
+  --primary-hover: #50c4f0;
+  --border: rgba(255, 255, 255, 0.1);
+  --border-outer: rgba(255, 255, 255, 0.07);
+  --input-bg: rgba(255, 255, 255, 0.04);
+  --lcd-bg: #0a1808;
+  --lcd-text: #3cff3c;
+  --lcd-glow: rgba(60, 255, 60, 0.18);
+  --lcd-border: rgba(60, 255, 60, 0.18);
+  --glass-blur: 22px;
+  --glass-shine: linear-gradient(135deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 40%, rgba(255,255,255,0.05) 100%);
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.45), 0 2px 8px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 16px 56px rgba(0, 0, 0, 0.55), 0 4px 16px rgba(0, 0, 0, 0.35);
+  --shadow-inset: inset 0 2px 8px rgba(0, 0, 0, 0.35);
+  --shadow-sm: 0 1px 6px rgba(0, 0, 0, 0.25);
+  --iridescent: linear-gradient(135deg, rgba(100,210,255,0.2), rgba(160,100,240,0.15), rgba(255,100,150,0.12), rgba(80,230,180,0.15));
 }
 
 html {
@@ -78,7 +78,46 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  transition: background-color var(--transition), color var(--transition);
+  transition: background-color 0.5s ease, color 0.5s ease, background-image 0.5s ease;
+}
+
+[data-theme="dark"] body {
+  background-image:
+    radial-gradient(ellipse at 20% 20%, rgba(100,210,255,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(160,100,240,0.07) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(80,230,180,0.04) 0%, transparent 60%);
+}
+
+/* ========================================
+   THEME SWITCH ANIMATION
+   ======================================== */
+.theme-transition-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.theme-transition-overlay--active {
+  opacity: 1;
+}
+
+.theme-transition-overlay--done {
+  opacity: 0;
+  transition: opacity 0.4s ease 0.05s;
+}
+
+.theme-toggle--animating {
+  animation: toggleSpin 0.6s cubic-bezier(.4,0,.2,1);
+}
+
+@keyframes toggleSpin {
+  0%   { transform: rotate(0deg) scale(1); }
+  40%  { transform: rotate(200deg) scale(1.2); }
+  70%  { transform: rotate(340deg) scale(1.05); }
+  100% { transform: rotate(360deg) scale(1); }
 }
 
 /* ========================================
@@ -92,7 +131,11 @@ body {
   border-bottom: 1px solid var(--border);
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.6);
   backdrop-filter: blur(var(--glass-blur)) saturate(1.6);
-  transition: background-color var(--transition), border-color var(--transition);
+  transition: background-color 0.5s ease, border-color 0.5s ease;
+}
+
+[data-theme="dark"] .header {
+  border-bottom-color: rgba(100, 210, 255, 0.06);
 }
 
 .header__inner {
@@ -184,7 +227,12 @@ body {
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.5);
   backdrop-filter: blur(var(--glass-blur)) saturate(1.5);
   overflow: hidden;
-  transition: background-color var(--transition), border-color var(--transition), box-shadow var(--transition);
+  transition: background-color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+[data-theme="dark"] .converter-card {
+  border-color: rgba(100, 210, 255, 0.08);
+  box-shadow: var(--shadow-lg), 0 0 80px rgba(100, 210, 255, 0.03);
 }
 
 /* Glass highlight reflection */
@@ -211,6 +259,12 @@ body {
   z-index: 1;
 }
 
+[data-theme="dark"] .converter-card::after {
+  height: 2px;
+  background: linear-gradient(90deg, rgba(100,210,255,0.4), rgba(160,100,240,0.3), rgba(255,100,150,0.25), rgba(80,230,180,0.3));
+  box-shadow: 0 0 12px rgba(100, 210, 255, 0.2);
+}
+
 .converter-card > * {
   position: relative;
   z-index: 1;
@@ -221,6 +275,13 @@ body {
   font-weight: 700;
   letter-spacing: -0.025em;
   text-align: center;
+}
+
+[data-theme="dark"] .converter-card__title {
+  background: linear-gradient(135deg, #f0f0f5, #64d2ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .converter-card__subtitle {
@@ -273,10 +334,11 @@ body {
 }
 
 [data-theme="dark"] .display__bezel {
-  background: linear-gradient(145deg, #0a0a0e, #181820);
+  background: linear-gradient(145deg, #0c0c12, #1a1a26);
   box-shadow:
-    0 4px 20px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    0 4px 24px rgba(0, 0, 0, 0.5),
+    0 0 1px rgba(100, 210, 255, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .display__badge {
@@ -296,8 +358,9 @@ body {
 }
 
 [data-theme="dark"] .display__badge {
-  background: rgba(60, 255, 60, 0.1);
-  color: rgba(60, 255, 60, 0.5);
+  background: rgba(60, 255, 60, 0.12);
+  color: rgba(60, 255, 60, 0.6);
+  text-shadow: 0 0 6px rgba(60, 255, 60, 0.3);
 }
 
 /* ── LCD Display Fields ── */
@@ -329,11 +392,11 @@ body {
 }
 
 [data-theme="dark"] .converter__input {
-  text-shadow: 0 0 8px var(--lcd-glow);
+  text-shadow: 0 0 10px var(--lcd-glow), 0 0 30px rgba(60, 255, 60, 0.06);
 }
 
 [data-theme="dark"] .converter__input:focus {
-  box-shadow: var(--shadow-inset), 0 0 32px var(--lcd-glow), 0 0 0 2px rgba(90, 200, 250, 0.15);
+  box-shadow: var(--shadow-inset), 0 0 36px var(--lcd-glow), 0 0 0 2px rgba(100, 210, 255, 0.2);
 }
 
 .converter__input--readonly {
@@ -424,7 +487,8 @@ body {
 }
 
 [data-theme="dark"] .converter__swap {
-  box-shadow: 0 4px 20px rgba(90,200,250,0.3), inset 0 1px 0 rgba(255,255,255,0.15);
+  background: linear-gradient(135deg, #64d2ff, #50a0ff);
+  box-shadow: 0 4px 24px rgba(100,210,255,0.35), 0 0 0 1px rgba(100,210,255,0.15), inset 0 1px 0 rgba(255,255,255,0.2);
 }
 
 .converter__swap:hover {
@@ -434,7 +498,8 @@ body {
 }
 
 [data-theme="dark"] .converter__swap:hover {
-  box-shadow: 0 6px 28px rgba(90,200,250,0.45), inset 0 1px 0 rgba(255,255,255,0.2);
+  background: linear-gradient(135deg, #50c4f0, #4090ee);
+  box-shadow: 0 6px 32px rgba(100,210,255,0.5), 0 0 0 1px rgba(100,210,255,0.2), inset 0 1px 0 rgba(255,255,255,0.25);
 }
 
 .converter__swap:active {
@@ -502,6 +567,21 @@ body {
 
 .quickref__value--active {
   color: var(--primary);
+}
+
+[data-theme="dark"] .quickref__value--active {
+  color: var(--primary);
+  text-shadow: 0 0 8px rgba(100, 210, 255, 0.3);
+}
+
+[data-theme="dark"] .quickref__item {
+  border-color: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+[data-theme="dark"] .quickref__item:hover {
+  border-color: rgba(100, 210, 255, 0.1);
+  box-shadow: 0 0 12px rgba(100, 210, 255, 0.04);
 }
 
 .quickref__copy {
@@ -889,6 +969,21 @@ body {
   opacity: 0.6;
 }
 
+[data-theme="dark"] .history__item {
+  border-color: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+[data-theme="dark"] .history__item:hover {
+  border-color: rgba(100, 210, 255, 0.1);
+  box-shadow: 0 0 16px rgba(100, 210, 255, 0.05), var(--shadow);
+}
+
+[data-theme="dark"] .history__count {
+  background: linear-gradient(135deg, #64d2ff, #50a0ff);
+  box-shadow: 0 0 10px rgba(100, 210, 255, 0.2);
+}
+
 @keyframes historySlideIn {
   from {
     opacity: 0;
@@ -912,7 +1007,20 @@ body {
   background: var(--bg-card);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
-  transition: border-color var(--transition), color var(--transition), background-color var(--transition);
+  transition: border-color 0.5s ease, color 0.5s ease, background-color 0.5s ease;
+}
+
+.footer a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+[data-theme="dark"] .footer {
+  border-top-color: rgba(100, 210, 255, 0.08);
 }
 
 /* ========================================
