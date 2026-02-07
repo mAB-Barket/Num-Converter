@@ -100,6 +100,16 @@
     outputBadge.textContent = baseNames[parseInt(outputBase.value)];
   }
 
+  // ── Sync Dropdowns (hide same base from opposite) ─────────
+  function syncDropdowns() {
+    const fromVal = inputBase.value;
+    const toVal = outputBase.value;
+
+    // Enable all first, then disable the matching one
+    [...inputBase.options].forEach(opt => { opt.disabled = (opt.value === toVal); });
+    [...outputBase.options].forEach(opt => { opt.disabled = (opt.value === fromVal); });
+  }
+
   // ── Quick Reference Panel ────────────────────────────
   function updateQuickRef(decimal) {
     if (decimal === null || decimal === undefined || isNaN(decimal)) {
@@ -384,10 +394,24 @@
     return div.innerHTML;
   }
 
+  // ── Page Navigation (sub-pages only) ───────────────────
+  const baseSlug = { 2: "bin", 8: "oct", 10: "dec", 16: "hex" };
+
+  function navigateToConversionPage() {
+    if (!window.NUMCONVERT_DEFAULTS) return; // only on sub-pages
+    const from = parseInt(inputBase.value);
+    const to = parseInt(outputBase.value);
+    if (from === to) return;
+    const slug = `${baseSlug[from]}-to-${baseSlug[to]}.html`;
+    if (window.location.href.indexOf(slug) === -1) {
+      window.location.href = slug;
+    }
+  }
+
   // ── Event Listeners ───────────────────────────────────
   inputValue.addEventListener("input", convertAndTrack);
-  inputBase.addEventListener("change", () => { updateBadges(); convertAndTrack(); });
-  outputBase.addEventListener("change", () => { updateBadges(); convertAndTrack(); });
+  inputBase.addEventListener("change", () => { syncDropdowns(); updateBadges(); convertAndTrack(); navigateToConversionPage(); });
+  outputBase.addEventListener("change", () => { syncDropdowns(); updateBadges(); convertAndTrack(); navigateToConversionPage(); });
   swapBtn.addEventListener("click", swap);
   clearBtn.addEventListener("click", clearInput);
   copyBtn.addEventListener("click", () => copyToClipboard(outputValue.value.replace(/\s/g, "")));
@@ -439,7 +463,14 @@
   });
 
   // ── Init ──────────────────────────────────────────────
+  // Apply page-specific defaults (for conversion landing pages)
+  if (window.NUMCONVERT_DEFAULTS) {
+    if (window.NUMCONVERT_DEFAULTS.fromBase) inputBase.value = window.NUMCONVERT_DEFAULTS.fromBase;
+    if (window.NUMCONVERT_DEFAULTS.toBase) outputBase.value = window.NUMCONVERT_DEFAULTS.toBase;
+  }
+
   initTheme();
+  syncDropdowns();
   updateBadges();
   renderHistory();
 

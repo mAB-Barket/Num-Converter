@@ -3,11 +3,54 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Number System Converter</title>
+  <title>Number System Converter - Binary, Decimal, Octal & Hex | NumConvert</title>
+  <meta name="description" content="Free online number system converter. Instantly convert between Binary, Decimal, Octal, and Hexadecimal. Fast, accurate, and mobile-friendly tool with conversion history." />
+  <meta name="keywords" content="number system converter, binary to decimal, decimal to binary, hex converter, octal converter, binary converter, number base converter, base conversion tool" />
+  <link rel="canonical" href="https://mab-barket.github.io/Num-Converter/" />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="mAB-Barket" />
+  <meta name="theme-color" content="#0071e3" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Number System Converter - Binary, Decimal, Octal & Hex" />
+  <meta property="og:description" content="Free online number system converter. Instantly convert between Binary, Decimal, Octal, and Hexadecimal." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://mab-barket.github.io/Num-Converter/" />
+  <meta property="og:site_name" content="NumConvert" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Number System Converter - Binary, Decimal, Octal & Hex" />
+  <meta name="twitter:description" content="Free online number system converter. Instantly convert between Binary, Decimal, Octal, and Hexadecimal." />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "NumConvert - Number System Converter",
+    "description": "Free online number system converter. Instantly convert between Binary, Decimal, Octal, and Hexadecimal.",
+    "url": "https://mab-barket.github.io/Num-Converter/",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "browserRequirements": "Requires JavaScript",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Person",
+      "name": "mAB-Barket"
+    }
+  }
+  </script>
 </head>
 <body>
   <!-- ====== HEADER ====== -->
@@ -200,12 +243,39 @@
         </li>
       </ul>
     </section>
+
+    <!-- SEO: About Section -->
+    <section class="seo-content" aria-label="About number system conversion">
+      <h2 class="seo-content__title">What Is a Number System Converter?</h2>
+      <p>A number system converter is a tool that translates values between different numeral bases. Computers use <strong>binary (base 2)</strong> internally, but humans commonly work with <strong>decimal (base 10)</strong>. Developers and engineers frequently use <strong>hexadecimal (base 16)</strong> for memory addresses and color codes, and <strong>octal (base 8)</strong> for Unix file permissions.</p>
+      <p>NumConvert lets you instantly convert between all four systems with real-time results, digit grouping for readability, and a full conversion history — all in your browser with zero server calls.</p>
+    </section>
+
+    <!-- SEO: All Converters Grid -->
+    <section class="all-converters" aria-label="All conversion tools">
+      <h2 class="all-converters__title">All Number Conversion Tools</h2>
+      <p class="all-converters__subtitle">Jump to a specific converter optimized for your exact conversion:</p>
+      <div class="all-converters__grid">
+        <a href="bin-to-dec.html" class="all-converters__link">Binary to Decimal</a>
+        <a href="bin-to-oct.html" class="all-converters__link">Binary to Octal</a>
+        <a href="bin-to-hex.html" class="all-converters__link">Binary to Hexadecimal</a>
+        <a href="dec-to-bin.html" class="all-converters__link">Decimal to Binary</a>
+        <a href="dec-to-oct.html" class="all-converters__link">Decimal to Octal</a>
+        <a href="dec-to-hex.html" class="all-converters__link">Decimal to Hexadecimal</a>
+        <a href="oct-to-bin.html" class="all-converters__link">Octal to Binary</a>
+        <a href="oct-to-dec.html" class="all-converters__link">Octal to Decimal</a>
+        <a href="oct-to-hex.html" class="all-converters__link">Octal to Hexadecimal</a>
+        <a href="hex-to-bin.html" class="all-converters__link">Hexadecimal to Binary</a>
+        <a href="hex-to-dec.html" class="all-converters__link">Hexadecimal to Decimal</a>
+        <a href="hex-to-oct.html" class="all-converters__link">Hexadecimal to Octal</a>
+      </div>
+    </section>
   </main>
 
   <!-- ====== FOOTER ====== -->
   <footer class="footer">
     <p>&copy; 2026 NumConvert &mdash; Built with Vibes.</p>
-    <p> Made by mAB-Barket </p>
+    <p>Made by <a href="https://github.com/mAB-Barket" rel="noopener" target="_blank">mAB-Barket</a></p>
   </footer>
 
   <!-- Toast notification -->

@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Sitemap: https://mab-barket.github.io/Num-Converter/sitemap.xml
+
+# Disallow test files
+Disallow: /tests/
+Disallow: /generate-seo-pages.js

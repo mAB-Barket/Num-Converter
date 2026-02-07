@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Binary to Hexadecimal Converter – Free Online Tool | NumConvert</title>
+  <meta name="description" content="Convert binary to hexadecimal instantly. Group binary digits into sets of four and get the hex result in real time. Free online tool with step-by-step guide." />
+  <meta name="keywords" content="binary to hexadecimal, binary to hexadecimal converter, convert binary to hexadecimal, binary hexadecimal conversion, base 2 to base 16" />
+  <link rel="canonical" href="https://mab-barket.github.io/Num-Converter/bin-to-hex.html" />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="mAB-Barket" />
+  <meta name="theme-color" content="#0071e3" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Binary to Hexadecimal Converter – Free Online Tool" />
+  <meta property="og:description" content="Convert binary to hexadecimal instantly. Group binary digits into sets of four and get the hex result in real time. Free online tool with step-by-step guide." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://mab-barket.github.io/Num-Converter/bin-to-hex.html" />
+  <meta property="og:site_name" content="NumConvert" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Binary to Hexadecimal Converter – Free Online Tool" />
+  <meta name="twitter:description" content="Convert binary to hexadecimal instantly. Group binary digits into sets of four and get the hex result in real time. Free online tool with step-by-step guide." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- JSON-LD: WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Binary to Hexadecimal Converter – NumConvert",
+    "description": "Convert binary to hexadecimal instantly. Group binary digits into sets of four and get the hex result in real time. Free online tool with step-by-step guide.",
+    "url": "https://mab-barket.github.io/Num-Converter/bin-to-hex.html",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Person",
+      "name": "mAB-Barket"
+    }
+  }
+  </script>
+
+  <!-- JSON-LD: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why is hexadecimal popular in programming?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Hex provides a compact, human-readable way to represent binary data. One hex digit replaces 4 binary bits, so a byte (8 bits) is just 2 hex characters. It is used for memory addresses, color codes (#FF5733), and debugging."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What do the letters A–F mean in hexadecimal?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Hex needs 16 symbols. After 0–9, it uses A=10, B=11, C=12, D=13, E=14, F=15. Upper and lower case are interchangeable."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How many binary digits fit in one hex digit?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Exactly 4 binary digits (bits). This clean mapping is why hex is the preferred shorthand for binary data in computing."
+      }
+    }
+    ]
+  }
+  </script>
+
+  <!-- JSON-LD: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "NumConvert",
+        "item": "https://mab-barket.github.io/Num-Converter/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Binary to Hexadecimal Converter",
+        "item": "https://mab-barket.github.io/Num-Converter/bin-to-hex.html"
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <!-- ====== HEADER ====== -->
+  <header class="header">
+    <div class="header__inner">
+      <a href="index.html" class="logo" aria-label="NumConvert Home">
+        <svg class="logo__icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="16 18 22 12 16 6"></polyline>
+          <polyline points="8 6 2 12 8 18"></polyline>
+          <line x1="12" y1="2" x2="12" y2="22" opacity=".4"></line>
+        </svg>
+        <span class="logo__text">NumConvert</span>
+      </a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <svg class="theme-toggle__sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="theme-toggle__moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ====== MAIN ====== -->
+  <main class="main">
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="index.html">Home</a>
+      <span class="breadcrumb__sep">/</span>
+      <span>Binary to Hexadecimal</span>
+    </nav>
+
+    <!-- Converter Card -->
+    <section class="converter-card" aria-label="Binary to Hexadecimal converter">
+      <h1 class="converter-card__title">Binary to Hexadecimal Converter</h1>
+      <p class="converter-card__subtitle">Convert binary (base 2) to hexadecimal (base 16) instantly.</p>
+
+      <div class="converter">
+        <!-- Input Side -->
+        <div class="converter__group">
+          <label class="converter__label" for="inputValue">Input (Binary)</label>
+          <div class="display">
+            <div class="display__bezel">
+              <span class="display__badge" id="inputBadge">BIN</span>
+              <div class="converter__input-wrap">
+                <input type="text" id="inputValue" class="converter__input" placeholder="Enter a binary number…" autocomplete="off" spellcheck="false" />
+                <button class="converter__clear-btn" id="clearBtn" aria-label="Clear input" title="Clear">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <select id="inputBase" class="converter__select" aria-label="Input base" title="Input base">
+            <option value="2" selected>Binary (Base 2)</option>
+            <option value="10">Decimal (Base 10)</option>
+            <option value="8">Octal (Base 8)</option>
+            <option value="16">Hexadecimal (Base 16)</option>
+          </select>
+        </div>
+
+        <!-- Swap Button -->
+        <button class="converter__swap" id="swapBtn" aria-label="Swap input and output" title="Swap">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="17 1 21 5 17 9"></polyline>
+            <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+            <polyline points="7 23 3 19 7 15"></polyline>
+            <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+          </svg>
+        </button>
+
+        <!-- Output Side -->
+        <div class="converter__group">
+          <label class="converter__label" for="outputValue">Output (Hexadecimal)</label>
+          <div class="display">
+            <div class="display__bezel">
+              <span class="display__badge" id="outputBadge">HEX</span>
+              <div class="converter__input-wrap">
+                <input type="text" id="outputValue" class="converter__input converter__input--readonly" readonly placeholder="Result will appear here…" />
+                <button class="converter__copy-btn" id="copyBtn" aria-label="Copy result" title="Copy">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <select id="outputBase" class="converter__select" aria-label="Output base" title="Output base">
+            <option value="2">Binary (Base 2)</option>
+            <option value="10">Decimal (Base 10)</option>
+            <option value="8">Octal (Base 8)</option>
+            <option value="16" selected>Hexadecimal (Base 16)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Validation message -->
+      <p class="converter__error" id="errorMsg" role="alert"></p>
+
+      <!-- All-bases quick reference -->
+      <div class="quickref" id="quickRef">
+        <div class="quickref__item">
+          <span class="quickref__label">BIN</span>
+          <span class="quickref__value" id="qrBin" data-base="2">&mdash;</span>
+          <button class="quickref__copy" data-target="qrBin" aria-label="Copy binary" title="Copy"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <div class="quickref__item">
+          <span class="quickref__label">OCT</span>
+          <span class="quickref__value" id="qrOct" data-base="8">&mdash;</span>
+          <button class="quickref__copy" data-target="qrOct" aria-label="Copy octal" title="Copy"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <div class="quickref__item">
+          <span class="quickref__label">DEC</span>
+          <span class="quickref__value" id="qrDec" data-base="10">&mdash;</span>
+          <button class="quickref__copy" data-target="qrDec" aria-label="Copy decimal" title="Copy"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <div class="quickref__item">
+          <span class="quickref__label">HEX</span>
+          <span class="quickref__value" id="qrHex" data-base="16">&mdash;</span>
+          <button class="quickref__copy" data-target="qrHex" aria-label="Copy hex" title="Copy"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <div class="quickref__meta" id="quickRefMeta"></div>
+      </div>
+    </section>
+
+    <!-- Keyboard hints -->
+    <div class="kbd-hints">
+      <span class="kbd-hint"><kbd>Esc</kbd> Clear</span>
+      <span class="kbd-hint"><kbd>Tab</kbd> Next field</span>
+      <span class="kbd-hint">Click history to reload</span>
+    </div>
+
+    <!-- History Section -->
+    <section class="history" aria-label="Conversion history">
+      <div class="history__header">
+        <div class="history__title-group">
+          <h2 class="history__title">
+            <svg class="history__icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            Conversion History
+          </h2>
+          <span class="history__count" id="historyCount">0</span>
+        </div>
+        <button class="history__clear" id="clearHistoryBtn">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+          Clear All
+        </button>
+      </div>
+      <ul class="history__list" id="historyList">
+        <li class="history__empty" id="historyEmpty">
+          <svg class="history__empty-icon" viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="18" rx="3" ry="3"></rect><line x1="2" y1="8" x2="22" y2="8"></line><line x1="8" y1="12" x2="16" y2="12"></line><line x1="8" y1="16" x2="14" y2="16"></line></svg>
+          <span>No conversions yet</span>
+          <small>Start typing to see your history here</small>
+        </li>
+      </ul>
+    </section>
+
+    <!-- SEO: How to Convert Section -->
+    <section class="seo-content" aria-label="How to convert binary to hexadecimal">
+      <h2 class="seo-content__title">How to Convert Binary to Hexadecimal</h2>
+      <p>Hexadecimal (base 16) is widely used in programming and web development. Since 16 = 2⁴, each hex digit maps to exactly 4 binary bits, making binary-to-hex conversion fast and direct.</p>
+
+      <h3>Step-by-Step Method</h3>
+      <ol>
+            <li>Starting from the right, group the binary digits into sets of 4.</li>
+            <li>Pad the leftmost group with zeros if needed.</li>
+            <li>Convert each 4-bit group using: 0000=0, 0001=1, …, 1001=9, 1010=A, 1011=B, 1100=C, 1101=D, 1110=E, 1111=F.</li>
+            <li>Concatenate the hex digits for the final result.</li>
+      </ol>
+
+      <h3>Example</h3>
+      <p>For binary <code>11010110</code>: group as <code>1101 0110</code> → D and 6 → hexadecimal <strong>D6</strong>.</p>
+
+      <h3>Binary to Hexadecimal Conversion Table</h3>
+      <table class="conversion-table">
+        <thead>
+          <tr>
+            <th>Binary (Base 2)</th>
+            <th>Hexadecimal (Base 16)</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr><td>1</td><td>1</td></tr>
+            <tr><td>1010</td><td>A</td></tr>
+            <tr><td>11001</td><td>19</td></tr>
+            <tr><td>1100100</td><td>64</td></tr>
+            <tr><td>11111111</td><td>FF</td></tr>
+            <tr><td>10000000000</td><td>400</td></tr>
+        </tbody>
+      </table>
+
+      <!-- FAQ -->
+      <div class="faq-section">
+        <h3 class="faq-section__title">Frequently Asked Questions</h3>
+          <div class="faq-item">
+            <h4 class="faq-item__q">Why is hexadecimal popular in programming?</h4>
+            <p class="faq-item__a">Hex provides a compact, human-readable way to represent binary data. One hex digit replaces 4 binary bits, so a byte (8 bits) is just 2 hex characters. It is used for memory addresses, color codes (#FF5733), and debugging.</p>
+          </div>
+          <div class="faq-item">
+            <h4 class="faq-item__q">What do the letters A–F mean in hexadecimal?</h4>
+            <p class="faq-item__a">Hex needs 16 symbols. After 0–9, it uses A=10, B=11, C=12, D=13, E=14, F=15. Upper and lower case are interchangeable.</p>
+          </div>
+          <div class="faq-item">
+            <h4 class="faq-item__q">How many binary digits fit in one hex digit?</h4>
+            <p class="faq-item__a">Exactly 4 binary digits (bits). This clean mapping is why hex is the preferred shorthand for binary data in computing.</p>
+          </div>
+      </div>
+    </section>
+
+    <!-- SEO: Other Converters -->
+    <section class="all-converters" aria-label="Other conversion tools">
+      <h2 class="all-converters__title">Other Number Converters</h2>
+      <p class="all-converters__subtitle">Need a different conversion? Try one of these:</p>
+      <div class="all-converters__grid">
+        <a href="index.html" class="all-converters__link all-converters__link--active">All-in-One Converter</a>
+        <a href="bin-to-dec.html" class="all-converters__link">Binary to Decimal</a>
+        <a href="bin-to-oct.html" class="all-converters__link">Binary to Octal</a>
+        <a href="dec-to-bin.html" class="all-converters__link">Decimal to Binary</a>
+        <a href="dec-to-oct.html" class="all-converters__link">Decimal to Octal</a>
+        <a href="dec-to-hex.html" class="all-converters__link">Decimal to Hexadecimal</a>
+        <a href="oct-to-bin.html" class="all-converters__link">Octal to Binary</a>
+        <a href="oct-to-dec.html" class="all-converters__link">Octal to Decimal</a>
+        <a href="oct-to-hex.html" class="all-converters__link">Octal to Hexadecimal</a>
+        <a href="hex-to-bin.html" class="all-converters__link">Hexadecimal to Binary</a>
+        <a href="hex-to-dec.html" class="all-converters__link">Hexadecimal to Decimal</a>
+        <a href="hex-to-oct.html" class="all-converters__link">Hexadecimal to Octal</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- ====== FOOTER ====== -->
+  <footer class="footer">
+    <p>&copy; 2026 NumConvert &mdash; Built with Vibes.</p>
+    <p>Made by <a href="https://github.com/mAB-Barket" rel="noopener" target="_blank">mAB-Barket</a></p>
+  </footer>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast"></div>
+
+  <script>window.NUMCONVERT_DEFAULTS = { fromBase: '2', toBase: '16' };</script>
+  <script src="script.js"></script>
+</body>
+</html>

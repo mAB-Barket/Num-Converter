@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Octal to Binary Converter – Free Online Tool | NumConvert</title>
+  <meta name="description" content="Convert octal numbers to binary instantly. Each octal digit maps directly to 3 binary bits. Free online tool with real-time results and step-by-step explanation." />
+  <meta name="keywords" content="octal to binary, octal to binary converter, convert octal to binary, octal binary conversion, base 8 to base 2" />
+  <link rel="canonical" href="https://mab-barket.github.io/Num-Converter/oct-to-bin.html" />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="mAB-Barket" />
+  <meta name="theme-color" content="#0071e3" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Octal to Binary Converter – Free Online Tool" />
+  <meta property="og:description" content="Convert octal numbers to binary instantly. Each octal digit maps directly to 3 binary bits. Free online tool with real-time results and step-by-step explanation." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://mab-barket.github.io/Num-Converter/oct-to-bin.html" />
+  <meta property="og:site_name" content="NumConvert" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Octal to Binary Converter – Free Online Tool" />
+  <meta name="twitter:description" content="Convert octal numbers to binary instantly. Each octal digit maps directly to 3 binary bits. Free online tool with real-time results and step-by-step explanation." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- JSON-LD: WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Octal to Binary Converter – NumConvert",
+    "description": "Convert octal numbers to binary instantly. Each octal digit maps directly to 3 binary bits. Free online tool with real-time results and step-by-step explanation.",
+    "url": "https://mab-barket.github.io/Num-Converter/oct-to-bin.html",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Person",
+      "name": "mAB-Barket"
+    }
+  }
+  </script>
+
+  <!-- JSON-LD: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why does each octal digit equal exactly 3 binary bits?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Because 2³ = 8. Three binary bits can represent values 0–7, which are exactly the digits used in octal. This mathematical relationship creates a perfect 1-to-3 mapping."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I convert octal to binary without a calculator?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Absolutely. It is one of the easiest base conversions to do by hand. Just memorize the eight 3-bit patterns (000 through 111) and substitute each octal digit."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if my octal number contains the digit 8 or 9?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Digits 8 and 9 do not exist in octal (base 8). If you see them, the number is not valid octal. Check your input for errors."
+      }
+    }
+    ]
+  }
+  </script>
+
+  <!-- JSON-LD: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "NumConvert",
+        "item": "https://mab-barket.github.io/Num-Converter/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Octal to Binary Converter",
+        "item": "https://mab-barket.github.io/Num-Converter/oct-to-bin.html"
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <!-- ====== HEADER ====== -->
+  <header class="header">
+    <div class="header__inner">
+      <a href="index.html" class="logo" aria-label="NumConvert Home">
+        <svg class="logo__icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="16 18 22 12 16 6"></polyline>
+          <polyline points="8 6 2 12 8 18"></polyline>
+          <line x1="12" y1="2" x2="12" y2="22" opacity=".4"></line>
+        </svg>
+        <span class="logo__text">NumConvert</span>
+      </a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <svg class="theme-toggle__sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="theme-toggle__moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ====== MAIN ====== -->
+  <main class="main">
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="index.html">Home</a>
+      <span class="breadcrumb__sep">/</span>
+      <span>Octal to Binary</span>
+    </nav>
+
+    <!-- Converter Card -->
+    <section class="converter-card" aria-label="Octal to Binary converter">
+      <h1 class="converter-card__title">Octal to Binary Converter</h1>
+      <p class="converter-card__subtitle">Convert octal (base 8) to binary (base 2) instantly.</p>
+
+      <div class="converter">
+        <!-- Input Side -->
+        <div class="converter__group">
+          <label class="converter__label" for="inputValue">Input (Octal)</label>
+          <div class="display">
+            <div class="display__bezel">
+              <span class="display__badge" id="inputBadge">OCT</span>
+              <div class="converter__input-wrap">
+                <input type="text" id="inputValue" class="converter__input" placeholder="Enter a octal number…" autocomplete="off" spellcheck="false" />
+                <button class="converter__clear-btn" id="clearBtn" aria-label="Clear input" title="Clear">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <select id="inputBase" class="converter__select" aria-label="Input base" title="Input base">
+            <option value="2">Binary (Base 2)</option>
+            <option value="10">Decimal (Base 10)</option>
+            <option value="8" selected>Octal (Base 8)</option>
+            <option value="16">Hexadecimal (Base 16)</option>
+          </select>
+        </div>
+
+        <!-- Swap Button -->
+        <button class="converter__swap" id="swapBtn" aria-label="Swap input and output" title="Swap">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="17 1 21 5 17 9"></polyline>
+            <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+            <polyline points="7 23 3 19 7 15"></polyline>
+            <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+          </svg>
+        </button>
+
+        <!-- Output Side -->
+        <div class="converter__group">
+          <label class="converter__label" for="outputValue">Output (Binary)</label>
+          <div class="display">
+            <div class="display__bezel">
+              <span class="display__badge" id="outputBadge">BIN</span>
+              <div class="converter__input-wrap">
+                <input type="text" id="outputValue" class="converter__input converter__input--readonly" readonly placeholder="Result will appear here…" />
+                <button class="converter__copy-btn" id="copyBtn" aria-label="Copy result" title="Copy">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <select id="outputBase" class="converter__select" aria-label="Output base" title="Output base">
+            <option value="2" selected>Binary (Base 2)</option>
+            <option value="10">Decimal (Base 10)</option>
+            <option value="8">Octal (Base 8)</option>
+            <option value="16">Hexadecimal (Base 16)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Validation message -->
+      <p class="converter__error" id="errorMsg" role="alert"></p>
+
+      <!-- All-bases quick reference -->
+      <div class="quickref" id="quickRef">
+        <div class="quickref__item">
+          <span class="quickref__label">BIN</span>
+          <span class="quickref__value" id="qrBin" data-base="2">&mdash;</span>
+          <button class="quickref__copy" data-target="qrBin" aria-label="Copy binary" title="Copy"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <div class="quickref__item">
+          <span class="quickref__label">OCT</span>
+          <span class="quickref__value" id="qrOct" data-base="8">&mdash;</span>
+          <button class="quickref__copy" data-target="qrOct" aria-label="Copy octal" title="Copy"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <div class="quickref__item">
+          <span class="quickref__label">DEC</span>
+          <span class="quickref__value" id="qrDec" data-base="10">&mdash;</span>
+          <button class="quickref__copy" data-target="qrDec" aria-label="Copy decimal" title="Copy"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <div class="quickref__item">
+          <span class="quickref__label">HEX</span>
+          <span class="quickref__value" id="qrHex" data-base="16">&mdash;</span>
+          <button class="quickref__copy" data-target="qrHex" aria-label="Copy hex" title="Copy"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <div class="quickref__meta" id="quickRefMeta"></div>
+      </div>
+    </section>
+
+    <!-- Keyboard hints -->
+    <div class="kbd-hints">
+      <span class="kbd-hint"><kbd>Esc</kbd> Clear</span>
+      <span class="kbd-hint"><kbd>Tab</kbd> Next field</span>
+      <span class="kbd-hint">Click history to reload</span>
+    </div>
+
+    <!-- History Section -->
+    <section class="history" aria-label="Conversion history">
+      <div class="history__header">
+        <div class="history__title-group">
+          <h2 class="history__title">
+            <svg class="history__icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            Conversion History
+          </h2>
+          <span class="history__count" id="historyCount">0</span>
+        </div>
+        <button class="history__clear" id="clearHistoryBtn">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+          Clear All
+        </button>
+      </div>
+      <ul class="history__list" id="historyList">
+        <li class="history__empty" id="historyEmpty">
+          <svg class="history__empty-icon" viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="18" rx="3" ry="3"></rect><line x1="2" y1="8" x2="22" y2="8"></line><line x1="8" y1="12" x2="16" y2="12"></line><line x1="8" y1="16" x2="14" y2="16"></line></svg>
+          <span>No conversions yet</span>
+          <small>Start typing to see your history here</small>
+        </li>
+      </ul>
+    </section>
+
+    <!-- SEO: How to Convert Section -->
+    <section class="seo-content" aria-label="How to convert octal to binary">
+      <h2 class="seo-content__title">How to Convert Octal to Binary</h2>
+      <p>Since octal is base 8 and 8 = 2³, every octal digit translates directly into a 3-bit binary group. This makes octal-to-binary conversion one of the simplest base conversions.</p>
+
+      <h3>Step-by-Step Method</h3>
+      <ol>
+            <li>Take each octal digit individually.</li>
+            <li>Convert each digit to its 3-bit binary equivalent (0=000, 1=001, 2=010, 3=011, 4=100, 5=101, 6=110, 7=111).</li>
+            <li>Concatenate all 3-bit groups from left to right.</li>
+            <li>Remove leading zeros from the result if desired.</li>
+      </ol>
+
+      <h3>Example</h3>
+      <p>For octal <code>752</code>: 7=<code>111</code>, 5=<code>101</code>, 2=<code>010</code> → binary <strong>111101010</strong>.</p>
+
+      <h3>Octal to Binary Conversion Table</h3>
+      <table class="conversion-table">
+        <thead>
+          <tr>
+            <th>Octal (Base 8)</th>
+            <th>Binary (Base 2)</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr><td>1</td><td>1</td></tr>
+            <tr><td>7</td><td>111</td></tr>
+            <tr><td>12</td><td>1010</td></tr>
+            <tr><td>77</td><td>111111</td></tr>
+            <tr><td>377</td><td>11111111</td></tr>
+            <tr><td>2000</td><td>10000000000</td></tr>
+        </tbody>
+      </table>
+
+      <!-- FAQ -->
+      <div class="faq-section">
+        <h3 class="faq-section__title">Frequently Asked Questions</h3>
+          <div class="faq-item">
+            <h4 class="faq-item__q">Why does each octal digit equal exactly 3 binary bits?</h4>
+            <p class="faq-item__a">Because 2³ = 8. Three binary bits can represent values 0–7, which are exactly the digits used in octal. This mathematical relationship creates a perfect 1-to-3 mapping.</p>
+          </div>
+          <div class="faq-item">
+            <h4 class="faq-item__q">Can I convert octal to binary without a calculator?</h4>
+            <p class="faq-item__a">Absolutely. It is one of the easiest base conversions to do by hand. Just memorize the eight 3-bit patterns (000 through 111) and substitute each octal digit.</p>
+          </div>
+          <div class="faq-item">
+            <h4 class="faq-item__q">What if my octal number contains the digit 8 or 9?</h4>
+            <p class="faq-item__a">Digits 8 and 9 do not exist in octal (base 8). If you see them, the number is not valid octal. Check your input for errors.</p>
+          </div>
+      </div>
+    </section>
+
+    <!-- SEO: Other Converters -->
+    <section class="all-converters" aria-label="Other conversion tools">
+      <h2 class="all-converters__title">Other Number Converters</h2>
+      <p class="all-converters__subtitle">Need a different conversion? Try one of these:</p>
+      <div class="all-converters__grid">
+        <a href="index.html" class="all-converters__link all-converters__link--active">All-in-One Converter</a>
+        <a href="bin-to-dec.html" class="all-converters__link">Binary to Decimal</a>
+        <a href="bin-to-oct.html" class="all-converters__link">Binary to Octal</a>
+        <a href="bin-to-hex.html" class="all-converters__link">Binary to Hexadecimal</a>
+        <a href="dec-to-bin.html" class="all-converters__link">Decimal to Binary</a>
+        <a href="dec-to-oct.html" class="all-converters__link">Decimal to Octal</a>
+        <a href="dec-to-hex.html" class="all-converters__link">Decimal to Hexadecimal</a>
+        <a href="oct-to-dec.html" class="all-converters__link">Octal to Decimal</a>
+        <a href="oct-to-hex.html" class="all-converters__link">Octal to Hexadecimal</a>
+        <a href="hex-to-bin.html" class="all-converters__link">Hexadecimal to Binary</a>
+        <a href="hex-to-dec.html" class="all-converters__link">Hexadecimal to Decimal</a>
+        <a href="hex-to-oct.html" class="all-converters__link">Hexadecimal to Octal</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- ====== FOOTER ====== -->
+  <footer class="footer">
+    <p>&copy; 2026 NumConvert &mdash; Built with Vibes.</p>
+    <p>Made by <a href="https://github.com/mAB-Barket" rel="noopener" target="_blank">mAB-Barket</a></p>
+  </footer>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast"></div>
+
+  <script>window.NUMCONVERT_DEFAULTS = { fromBase: '8', toBase: '2' };</script>
+  <script src="script.js"></script>
+</body>
+</html>
