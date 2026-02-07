@@ -11,152 +11,163 @@
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-      background: #f5f5f7;
+      background: #1d1d1f;
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #fff;
+      padding: 40px;
     }
-    .instructions {
-      margin-bottom: 24px;
+    h1 { font-size: 24px; margin-bottom: 8px; }
+    .subtitle { color: #86868b; margin-bottom: 32px; font-size: 15px; }
+    canvas {
+      border-radius: 12px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+      max-width: 100%;
+      height: auto;
+    }
+    .btn {
+      margin-top: 28px;
+      padding: 16px 48px;
+      background: #0071e3;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: #0077ED; }
+    .note {
+      margin-top: 20px;
+      color: #86868b;
+      font-size: 14px;
       text-align: center;
-      color: #333;
-      font-size: 16px;
-      max-width: 600px;
+      max-width: 500px;
       line-height: 1.6;
     }
-    .instructions strong { color: #0071e3; }
-    .instructions code {
-      background: #e8e8ed;
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-size: 14px;
-    }
-
-    /* The actual OG image card */
-    .og-card {
-      width: 1200px;
-      height: 630px;
-      background: linear-gradient(135deg, #0071e3 0%, #00c7ff 50%, #0071e3 100%);
-      border-radius: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-      color: #fff;
-    }
-
-    /* Background pattern */
-    .og-card::before {
-      content: '01 0A F3 10 1F 00 11 AB FF 7C 01 0A F3 10 1F 00 11 AB FF 7C 01 0A F3';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      font-family: 'JetBrains Mono', 'Courier New', monospace;
-      font-size: 28px;
-      line-height: 1.8;
-      color: rgba(255, 255, 255, 0.06);
-      word-break: break-all;
-      padding: 30px;
-      pointer-events: none;
-    }
-
-    .og-logo {
-      font-size: 28px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.85);
-      margin-bottom: 20px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .og-title {
-      font-size: 72px;
-      font-weight: 800;
-      text-align: center;
-      line-height: 1.15;
-      max-width: 900px;
-      position: relative;
-      z-index: 1;
-      text-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
-    }
-
-    .og-subtitle {
-      font-size: 28px;
-      font-weight: 400;
-      margin-top: 24px;
-      color: rgba(255, 255, 255, 0.9);
-      text-align: center;
-      max-width: 800px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .og-badges {
-      display: flex;
-      gap: 16px;
-      margin-top: 36px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .og-badge {
-      background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 50px;
-      padding: 10px 24px;
-      font-size: 20px;
-      font-weight: 600;
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    .og-url {
-      position: absolute;
-      bottom: 30px;
-      font-size: 20px;
-      color: rgba(255, 255, 255, 0.7);
-      position: relative;
-      z-index: 1;
-      margin-top: 30px;
-    }
-
-    /* Scale down for screen display */
-    .scale-wrapper {
-      transform: scale(0.6);
-      transform-origin: top center;
-    }
+    .note strong { color: #fff; }
   </style>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <div class="instructions">
-    <p><strong>How to save this as your OG preview image:</strong></p>
-    <p>
-      1. Open this file in your browser<br>
-      2. Right-click the card below → <strong>Inspect Element</strong><br>
-      3. Right-click the <code>.og-card</code> element → <strong>Capture node screenshot</strong><br>
-      4. Save as <code>og-preview.png</code> in your project root<br>
-      5. Commit & push to GitHub
-    </p>
-  </div>
+  <h1>OG Preview Image Generator</h1>
+  <p class="subtitle">Click the button to download og-preview.png (1200×630)</p>
 
-  <div class="scale-wrapper">
-    <div class="og-card" id="og-card">
-      <div class="og-logo">⚡ NumConvert</div>
-      <div class="og-title">Number System<br>Converter</div>
-      <div class="og-subtitle">Convert instantly between number systems — free & open source</div>
-      <div class="og-badges">
-        <span class="og-badge">Binary</span>
-        <span class="og-badge">Decimal</span>
-        <span class="og-badge">Octal</span>
-        <span class="og-badge">Hexadecimal</span>
-      </div>
-      <div class="og-url">mab-barket.github.io/Num-Converter</div>
-    </div>
-  </div>
+  <canvas id="canvas" width="1200" height="630"></canvas>
+
+  <button class="btn" onclick="download()">⬇ Download og-preview.png</button>
+
+  <p class="note">
+    <strong>After downloading:</strong><br>
+    1. Move <strong>og-preview.png</strong> to your project root folder<br>
+    2. Run: <strong>git add . && git commit -m "add OG image" && git push</strong><br>
+    3. Re-check on <strong>LinkedIn Post Inspector</strong>
+  </p>
+
+  <script>
+    const W = 1200, H = 630;
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    function draw() {
+      // --- Background gradient ---
+      const grad = ctx.createLinearGradient(0, 0, W, H);
+      grad.addColorStop(0, '#0050b3');
+      grad.addColorStop(0.5, '#0071e3');
+      grad.addColorStop(1, '#00a2ff');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, W, H);
+
+      // --- Subtle code pattern in background ---
+      ctx.save();
+      ctx.globalAlpha = 0.04;
+      ctx.fillStyle = '#fff';
+      ctx.font = '22px monospace';
+      const codes = '01 0A F3 10 1F 00 11 AB FF 7C 3E 5D B2 08 CC DD EE 42 9A 01 0B 1C 2D 3E 4F 50 61 72 83 94 A5 B6 C7 D8 E9 FA';
+      for (let y = 30; y < H; y += 40) {
+        const offset = (y / 40) % 2 === 0 ? 0 : 60;
+        ctx.fillText(codes, -offset, y);
+      }
+      ctx.restore();
+
+      // --- Decorative circles ---
+      ctx.save();
+      ctx.globalAlpha = 0.06;
+      ctx.fillStyle = '#fff';
+      ctx.beginPath(); ctx.arc(100, 530, 200, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(1100, 100, 250, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
+
+      // --- Logo text ---
+      ctx.fillStyle = 'rgba(255,255,255,0.85)';
+      ctx.font = '600 26px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('⚡ NUMCONVERT', W / 2, 140);
+
+      // --- Main title ---
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '800 76px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('Number System', W / 2, 250);
+      ctx.fillText('Converter', W / 2, 338);
+
+      // --- Subtitle ---
+      ctx.fillStyle = 'rgba(255,255,255,0.85)';
+      ctx.font = '400 26px sans-serif';
+      ctx.fillText('Convert instantly between number systems — free & open source', W / 2, 400);
+
+      // --- Badges ---
+      const badges = ['Binary', 'Decimal', 'Octal', 'Hexadecimal'];
+      const badgeW = 165, badgeH = 44, badgeGap = 20;
+      const totalBadgeW = badges.length * badgeW + (badges.length - 1) * badgeGap;
+      let bx = (W - totalBadgeW) / 2;
+      const by = 445;
+
+      ctx.font = '600 20px monospace';
+      ctx.textAlign = 'center';
+      badges.forEach(label => {
+        // Badge background
+        ctx.fillStyle = 'rgba(255,255,255,0.15)';
+        ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+        ctx.lineWidth = 1.5;
+        roundRect(ctx, bx, by, badgeW, badgeH, 22);
+        ctx.fill();
+        ctx.stroke();
+
+        // Badge text
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText(label, bx + badgeW / 2, by + 29);
+        bx += badgeW + badgeGap;
+      });
+
+      // --- URL at bottom ---
+      ctx.fillStyle = 'rgba(255,255,255,0.55)';
+      ctx.font = '400 20px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('mab-barket.github.io/Num-Converter', W / 2, 570);
+    }
+
+    function roundRect(ctx, x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+      ctx.lineTo(x + w, y + h - r);
+      ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+      ctx.lineTo(x + r, y + h);
+      ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+      ctx.lineTo(x, y + r);
+      ctx.quadraticCurveTo(x, y, x + r, y);
+      ctx.closePath();
+    }
+
+    function download() {
+      const link = document.createElement('a');
+      link.download = 'og-preview.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    draw();
+  </script>
 </body>
 </html>
