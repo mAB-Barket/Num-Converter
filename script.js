@@ -30,6 +30,8 @@
   const MAX_HISTORY = 50;
   let history = loadHistory();
   let toastTimer = null;
+  let inputSegment = null;
+  let outputSegment = null;
 
   // ── Base Names ────────────────────────────────────────
   const baseNames = {
@@ -91,42 +93,15 @@
     const current = document.documentElement.getAttribute("data-theme");
     const next = current === "dark" ? "light" : "dark";
 
-    // Animate the transition
-    const overlay = document.createElement("div");
-    overlay.className = "theme-transition-overlay";
-    overlay.style.background = next === "dark"
-      ? "radial-gradient(circle at var(--tx, 50%) var(--ty, 0%), #0d0d11 0%, transparent 70%)"
-      : "radial-gradient(circle at var(--tx, 50%) var(--ty, 0%), #e8eaf0 0%, transparent 70%)";
+    // Apply theme instantly
+    document.documentElement.setAttribute("data-theme", next);
+    localStorage.setItem(THEME_KEY, next);
 
-    // Position from the toggle button
-    const rect = themeToggle.getBoundingClientRect();
-    const cx = ((rect.left + rect.width / 2) / window.innerWidth * 100).toFixed(1);
-    const cy = ((rect.top + rect.height / 2) / window.innerHeight * 100).toFixed(1);
-    overlay.style.setProperty("--tx", cx + "%");
-    overlay.style.setProperty("--ty", cy + "%");
-
-    document.body.appendChild(overlay);
-
-    // Spin the toggle icon
+    // Brief spin animation
     themeToggle.classList.add("theme-toggle--animating");
-
-    requestAnimationFrame(() => {
-      overlay.classList.add("theme-transition-overlay--active");
-    });
-
     setTimeout(() => {
-      document.documentElement.setAttribute("data-theme", next);
-      localStorage.setItem(THEME_KEY, next);
-    }, 250);
-
-    setTimeout(() => {
-      overlay.classList.add("theme-transition-overlay--done");
       themeToggle.classList.remove("theme-toggle--animating");
-    }, 500);
-
-    setTimeout(() => {
-      overlay.remove();
-    }, 900);
+    }, 350);
   }
 
   // ── Badge Updates ───────────────────────────────────────────
@@ -143,6 +118,10 @@
     // Enable all first, then disable the matching one
     [...inputBase.options].forEach(opt => { opt.disabled = (opt.value === toVal); });
     [...outputBase.options].forEach(opt => { opt.disabled = (opt.value === fromVal); });
+
+    // Sync segmented controls
+    syncSegmentedControl(inputBase, inputSegment);
+    syncSegmentedControl(outputBase, outputSegment);
   }
 
   // ── Quick Reference Panel ────────────────────────────
@@ -377,6 +356,7 @@
       inputValue.value = currentOutput;
     }
 
+    syncDropdowns();
     updateBadges();
     lastHistoryEntry = ""; // allow re-logging after swap
     convertAndTrack();
@@ -433,7 +413,6 @@
   const baseSlug = { 2: "bin", 8: "oct", 10: "dec", 16: "hex" };
 
   function navigateToConversionPage() {
-    if (!window.NUMCONVERT_DEFAULTS) return; // only on sub-pages
     const from = parseInt(inputBase.value);
     const to = parseInt(outputBase.value);
     if (from === to) return;
@@ -442,6 +421,82 @@
       window.location.href = slug;
     }
   }
+
+  // ── Segmented Controls (Apple-style pill switcher) ────
+  const shortLabels = { '2': 'BIN', '8': 'OCT', '10': 'DEC', '16': 'HEX' };
+
+  function createSegmentedControl(selectEl) {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'segment-control';
+
+    const indicator = document.createElement('div');
+    indicator.className = 'segment-control__indicator';
+    wrapper.appendChild(indicator);
+
+    [...selectEl.options].forEach((opt) => {
+      const btn = document.createElement('button');
+      btn.className = 'segment-control__option';
+      btn.type = 'button';
+      btn.dataset.value = opt.value;
+      btn.textContent = shortLabels[opt.value] || opt.textContent;
+      if (opt.selected) btn.classList.add('segment-control__option--active');
+      if (opt.disabled) btn.classList.add('segment-control__option--disabled');
+
+      btn.addEventListener('click', () => {
+        if (btn.classList.contains('segment-control__option--disabled')) return;
+        selectEl.value = opt.value;
+        selectEl.dispatchEvent(new Event('change'));
+      });
+
+      wrapper.appendChild(btn);
+    });
+
+    selectEl.style.display = 'none';
+    selectEl.parentNode.insertBefore(wrapper, selectEl.nextSibling);
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => positionIndicator(wrapper, false));
+    });
+
+    return wrapper;
+  }
+
+  function positionIndicator(wrapper, animate) {
+    if (animate === undefined) animate = true;
+    const indicator = wrapper.querySelector('.segment-control__indicator');
+    const buttons = [...wrapper.querySelectorAll('.segment-control__option')];
+    const activeBtn = buttons.find(b => b.classList.contains('segment-control__option--active'));
+    if (!indicator || !activeBtn) return;
+
+    if (!animate) {
+      indicator.style.transition = 'none';
+    }
+
+    indicator.style.width = activeBtn.offsetWidth + 'px';
+    indicator.style.transform = 'translateX(' + activeBtn.offsetLeft + 'px)';
+
+    if (!animate) {
+      indicator.offsetHeight; // force reflow
+      indicator.style.transition = '';
+    }
+  }
+
+  function syncSegmentedControl(selectEl, wrapper) {
+    if (!wrapper) return;
+    const buttons = wrapper.querySelectorAll('.segment-control__option');
+    buttons.forEach(btn => {
+      const val = btn.dataset.value;
+      const opt = [...selectEl.options].find(o => o.value === val);
+      btn.classList.toggle('segment-control__option--active', val === selectEl.value);
+      btn.classList.toggle('segment-control__option--disabled', opt ? opt.disabled : false);
+    });
+    positionIndicator(wrapper, true);
+  }
+
+  window.addEventListener('resize', () => {
+    if (inputSegment) positionIndicator(inputSegment, false);
+    if (outputSegment) positionIndicator(outputSegment, false);
+  });
 
   // ── Event Listeners ───────────────────────────────────
   inputValue.addEventListener("input", convertAndTrack);
@@ -505,6 +560,8 @@
   }
 
   initTheme();
+  inputSegment = createSegmentedControl(inputBase);
+  outputSegment = createSegmentedControl(outputBase);
   syncDropdowns();
   updateBadges();
   renderHistory();
